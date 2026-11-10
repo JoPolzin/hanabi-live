@@ -7,15 +7,14 @@ import { REPO_ROOT } from "./constants";
 const ENV_PATH = path.join(REPO_ROOT, ".env");
 
 if (!fs.existsSync(ENV_PATH)) {
-  console.error(
+  console.warn(
     `The "${ENV_PATH}" file does not exist. Did you run the "install_dependencies.sh" script before running the server? This file should automatically be created when running this script.`,
   );
-  process.exit(1);
+} else {
+  dotenv.config({
+    path: ENV_PATH,
+  });
 }
-
-dotenv.config({
-  path: ENV_PATH,
-});
 
 // Loading values from the ".env" file will result in non-filled-in values being empty strings.
 // Since we want to Zod to populate default values, we first convert empty strings to `undefined`.

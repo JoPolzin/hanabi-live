@@ -49,17 +49,18 @@ func main() {
 	// Check to see if the ".env" file exists
 	envPath := path.Join(projectPath, ".env")
 	if _, err := os.Stat(envPath); os.IsNotExist(err) {
-		logger.Fatal("The \"" + envPath + "\" file does not exist. " +
+		logger.Warning("The \"" + envPath + "\" file does not exist. " +
 			"Did you run the \"install_dependencies.sh\" script before running the server? " +
 			"This file should automatically be created when running this script.")
-		return
+	} else {
+		// Load the ".env" file which contains environment variables with secret values
+		if err := godotenv.Load(envPath); err != nil {
+			logger.Fatal("Failed to load the \".env\" file:", err)
+			return
+		}
 	}
 
-	// Load the ".env" file which contains environment variables with secret values
-	if err := godotenv.Load(envPath); err != nil {
-		logger.Fatal("Failed to load the \".env\" file:", err)
-		return
-	}
+
 
 	// Read some configuration values from environment variables
 	portString := os.Getenv("PORT")

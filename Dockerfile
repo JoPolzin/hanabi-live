@@ -43,8 +43,6 @@ RUN apk update && apk add --no-cache libc6-compat git
 RUN mkdir -p /root/hanabi-live
 WORKDIR /root/hanabi-live
 
-# will need to be mounted on startup
-RUN touch .env
 COPY packages/data packages/data
 COPY packages/game packages/game
 COPY packages/server/src/json packages/server/src/json
