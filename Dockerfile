@@ -1,5 +1,5 @@
 ## first build the client
-FROM node:20-bookworm
+FROM docker.io/library/node:20-bookworm
 
 RUN mkdir -p /root/hanabi-live
 WORKDIR /root/hanabi-live
@@ -19,7 +19,7 @@ COPY .git .git
 RUN packages/client/build_client.sh
 
 ## then build the server
-FROM golang:1.17-buster
+FROM docker.io/library/golang:1.17-buster
 
 RUN mkdir -p /root/hanabi-live
 WORKDIR /root/hanabi-live
@@ -32,7 +32,7 @@ RUN CGO_ENABLED=0 server/build_server.sh
 
 ## remove src code and copy build artifacts into a minimal image
 
-FROM alpine
+FROM docker.io/library/alpine
 
 ENTRYPOINT ["/bin/sh"]
 
